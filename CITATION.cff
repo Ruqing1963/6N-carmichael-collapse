@@ -17,11 +17,11 @@ authors:
 version: "2.0.0"
 date-released: "2026-06-09"
 license: MIT
-doi: 10.5281/zenodo.20610382
+doi: 10.5281/zenodo.20611583
 repository-code: "https://github.com/Ruqing1963/6N-carmichael-collapse"
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.20610382
+    value: 10.5281/zenodo.20611583
     description: Zenodo record for Part XXXVI
 keywords:
   - number theory

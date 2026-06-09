@@ -1,6 +1,6 @@
 # 6N-carmichael-collapse
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20610382.svg)](https://doi.org/10.5281/zenodo.20610382)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20611583.svg)](https://doi.org/10.5281/zenodo.20611583)
 
 **Part XXXVI** of *Arithmetic Geodynamics on the 6N Skeleton* — Ruqing Chen, 2026.
 
@@ -87,7 +87,7 @@ Pomerance (1994), Erdős (1956), and Pinch.
 ## Citation
 
 R. Chen, *Topological Collapse and Asymmetric Divergence of Carmichael Pseudoprimes on the 6N
-Skeleton* (Part XXXVI), Zenodo, 2026. [doi:10.5281/zenodo.20610382](https://doi.org/10.5281/zenodo.20610382).
+Skeleton* (Part XXXVI), Zenodo, 2026. [doi:10.5281/zenodo.20611583](https://doi.org/10.5281/zenodo.20611583).
 See also the series review (Parts I–XIX), [doi:10.5281/zenodo.20585301](https://doi.org/10.5281/zenodo.20585301).
 
 ## License
