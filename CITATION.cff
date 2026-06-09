@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software or data, please cite it as below."
+title: "Topological Collapse and Asymmetric Divergence of Carmichael Pseudoprimes on the 6N Skeleton (Part XXXVI)"
+abstract: >-
+  Reproducer, data, figure, and paper for an empirical study of Carmichael
+  numbers read through the 6N skeleton. Korselt's criterion forces a
+  semipermeable membrane (left-wing Carmichael numbers are monochromatically
+  6N-1) and a parity law, verified with zero violations over all 1547 Carmichael
+  numbers up to 1e10; the right/left wing ratio R(X) diverges from 5.0 to 88.8
+  across seven decades, with an unidentifiable asymptotic rate.
+type: software
+authors:
+  - family-names: Chen
+    given-names: Ruqing
+    affiliation: "GUT Geoservice Inc., Montreal, Quebec, Canada"
+    email: ruqing@hotmail.com
+version: "1.0.0"
+date-released: "2026-06-09"
+license: MIT
+repository-code: "https://github.com/Ruqing1963/6N-carmichael-collapse"
+keywords:
+  - number theory
+  - Carmichael numbers
+  - pseudoprimes
+  - Korselt criterion
+  - 6N skeleton
+  - computational number theory
+  - arithmetic geodynamics
