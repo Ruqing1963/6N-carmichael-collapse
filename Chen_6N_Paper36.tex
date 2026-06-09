@@ -1,0 +1,215 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}
+
+\title{\bf Topological Collapse and Asymmetric Divergence\\
+of Carmichael Pseudoprimes on the $6N$ Skeleton%
+\thanks{Code and measured data: \url{https://github.com/Ruqing1963/6N-carmichael-collapse} (Part XXXVI).}}
+\author{Ruqing Chen\\
+\small GUT Geoservice Inc., Montreal, Quebec, Canada\\
+\small \texttt{ruqing@hotmail.com}}
+\date{June 9, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+On the $6N$ skeleton every integer coprime to $6$ sits on a wing: the right wing $6N{+}1$
+($\equiv1\bmod6$) or the left wing $6N{-}1$ ($\equiv5\bmod6$). We read the Carmichael numbers
+through this geometry. Korselt's criterion forces a sharp, elementary structure that we state and
+verify: \emph{(i)} a one-way semipermeable membrane---every Carmichael number on the left wing has
+\emph{all} of its prime factors on the left wing (and is not divisible by $3$); and \emph{(ii)} a
+parity law---a Carmichael number coprime to $6$ lies on the left wing iff it has an odd number of
+left-wing prime factors. Enumerating all $1547$ Carmichael numbers up to $10^{10}$, we find these two
+laws hold with \emph{zero} violations. The geometric consequence is a violent asymmetry: the
+right-to-left ratio $R(X)=\#\{\text{right}\}/\#\{\text{left}\}$ climbs monotonically from $5.0$ at
+$X=10^{4}$ to $88.8$ at $X=10^{10}$, a collapse of the left-wing population across seven decades. We
+trace the mechanism to a single structural fact: the left wing admits only \emph{monochromatic}
+products (all factors $\equiv5\bmod6$) of \emph{odd} length, while the mean number of prime factors
+$\bar k(X)$ of Carmichael numbers grows ($3.00\to4.23$ over the range), so the monochromatic
+configuration becomes exponentially scarce. We are explicit about the limit of the claim: the
+\emph{rate} of divergence is \emph{not} identifiable. Three functional forms---a power of $\log X$, a
+small power of $X$, and a stretched exponential---fit the seven points equally well, and the left-wing
+counts are single- to low-double-digit, so Poisson noise and the deep pre-asymptotic character of
+Carmichael statistics make the asymptotic law unrecoverable in any humanly reachable computational
+window. The structure (membrane, parity) and the phenomenon (asymmetric collapse) are firm; the
+asymptotic divergence law is, by construction, beyond reach.
+\end{abstract}
+
+\section{Introduction}
+A Carmichael number is a composite $n$ for which $a^{n}\equiv a\pmod n$ for every integer $a$; by
+Korselt's criterion \cite{Korselt} these are exactly the squarefree $n$ with at least three prime
+factors such that $p-1\mid n-1$ for every prime $p\mid n$. They are infinite in number
+\cite{AGP}, but their finer distribution---the growth of $C(x)=\#\{\text{Carmichael}\le x\}$ and the
+internal correlations among their prime factors---remains, in Erd\H{o}s's heuristic \cite{Erdos} and
+in Pinch's tabulations \cite{Pinch}, only partly understood.
+
+The present series reads arithmetic objects through the $6N$ skeleton, on which every prime $>3$ lies
+on a fault line $6N\pm1$. Here we ask what Korselt's criterion looks like in that geometry. The answer
+is an elementary but unusually rigid structure, and a measured macroscopic consequence. We make no
+claim that the structural facts are new as mathematics---they follow in a few lines from Korselt---only
+that their statement in the wing coordinates is clean, and that the resulting population asymmetry, and
+its honest non-identifiability, are worth recording.
+
+\section{The two structural laws}
+Write a prime $p>3$ as \emph{right} if $p\equiv1\pmod6$ and \emph{left} if $p\equiv5\pmod6$. On the
+units $(\mathbb Z/6)^{\times}=\{1,5\}\cong\{\pm1\}$, right primes carry the residue $+1$ and left
+primes the residue $-1$.
+
+\begin{proposition}[The semipermeable membrane]\label{prop:membrane}
+Let $n$ be a Carmichael number with $n\equiv5\pmod6$ (the left wing). Then $3\nmid n$ and every prime
+factor of $n$ satisfies $p\equiv5\pmod6$. No right-wing prime, and no factor of $3$, can occur.
+\end{proposition}
+
+\begin{proof}
+$n\equiv5\pmod6$ gives $n$ odd and $3\nmid n$, so $n$ is coprime to $6$ and every prime factor is
+$\equiv1$ or $\equiv5\pmod6$. Suppose $p\mid n$ with $p\equiv1\pmod6$. Then $6\mid p-1$. By Korselt
+$p-1\mid n-1$, hence $6\mid n-1$. But $n\equiv5\pmod6$ gives $n-1\equiv4\pmod6$, so $6\nmid n-1$---a
+contradiction. Thus no factor is $\equiv1\pmod6$, and all factors are $\equiv5\pmod6$.
+\end{proof}
+
+\begin{proposition}[The parity law]\label{prop:parity}
+Let $n$ be a Carmichael number coprime to $6$, with $\ell$ prime factors $\equiv5\pmod6$ (counted with
+the multiplicity $1$, as $n$ is squarefree). Then $n\equiv(-1)^{\ell}\pmod6$. Equivalently: $n$ is on
+the right wing iff $\ell$ is even, and on the left wing iff $\ell$ is odd.
+\end{proposition}
+
+\begin{proof}
+Modulo $6$ the residue of a product of units is the product of residues; right factors contribute $+1$
+and left factors $-1$, so $n\equiv(+1)^{\#\text{right}}(-1)^{\ell}\equiv(-1)^{\ell}\pmod6$.
+\end{proof}
+
+\begin{corollary}\label{cor:left}
+A left-wing Carmichael number is a product of an \emph{odd} number ($\ge3$) of distinct primes, all
+$\equiv5\pmod6$. The left wing is the single monochromatic, odd-length family; the right wing
+collects everything else---the all-right products, and all mixed products with an even number of left
+factors.
+\end{corollary}
+
+These are the entire structural content, and they are elementary. Their force is geometric: the left
+wing is closed under Korselt to a single, narrow family, while the right wing is an open basin.
+
+\section{The measurement}
+We enumerated \emph{all} Carmichael numbers up to $10^{10}$ by the Korselt divisor method (for each
+ordered prefix of prime factors with product $M$, the final prime $r$ must satisfy $(r-1)\mid(M-1)$,
+checked against $p-1\mid n-1$ for the remaining factors), recovering the known count $C(10^{10})=1547$
+\cite{Pinch} exactly, with the correct factorisation of each. Across all $1547$ numbers,
+Propositions~\ref{prop:membrane} and~\ref{prop:parity} hold with \textbf{zero violations}: every
+left-wing Carmichael number is monochromatically left, and every right-wing Carmichael number has an
+even number of left-wing factors.
+
+Table~\ref{tab:Rx} reports the cumulative wing census by decade. The right-to-left ratio
+$R(X)=\#\{n\le X:\,n\equiv1\}/\#\{n\le X:\,n\equiv5\}$ rises monotonically from $5.0$ to $88.8$.
+(A third, off-skeleton class with $3\mid n$, e.g.\ $561=3\cdot11\cdot17$ at residue $3\bmod6$, is small
+and is excluded from the wing ratio.)
+
+\begin{table}[h]
+\centering
+\begin{tabular}{rrrrrr}
+\toprule
+$\log_{10}X$ & $C(X)$ & right & left & $R(X)$ & $\bar k(X)$\\
+\midrule
+4  & 7    & 5    & 1  & 5.00  & 3.00\\
+5  & 16   & 13   & 1  & 13.00 & 3.25\\
+6  & 43   & 38   & 2  & 19.00 & 3.49\\
+7  & 105  & 98   & 4  & 24.50 & 3.58\\
+8  & 255  & 243  & 6  & 40.50 & 3.78\\
+9  & 646  & 623  & 12 & 51.92 & 4.00\\
+10 & 1547 & 1510 & 17 & 88.82 & 4.23\\
+\bottomrule
+\end{tabular}
+\caption{Cumulative wing census of Carmichael numbers. $R(X)$ is the right/left ratio; $\bar k(X)$ is
+the mean number of prime factors. The left-wing population collapses relative to the right as $X$
+grows.}
+\label{tab:Rx}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{carmichael_Rx.pdf}
+\caption{(Left) The measured asymmetric divergence $R(X)$ over seven decades, with a best-fitting power
+of $\log X$ drawn for reference only---the rate is not identifiable (\S5). (Right) The mechanism:
+$R(X)$ tracks the growth of the mean prime-factor count $\bar k(X)$ through the monochromatic
+suppression $\sim2^{-\bar k}$; the curve $2^{\bar k-1}$ captures the direction but undershoots the
+measured magnitude, because the right wing additionally absorbs the pure-right and even-mixed
+families.}
+\label{fig:Rx}
+\end{figure}
+
+\section{Mechanism: monochromatic suppression under a growing factor count}
+By Corollary~\ref{cor:left} a left-wing Carmichael number must be \emph{monochromatic}: all of its
+$k$ prime factors must fall on the left wing, with $k$ odd. For a Carmichael number with $k$ factors,
+the heuristic chance that all $k$ are left-wing is of order $2^{-k}$ (the two wings carry primes of
+nearly equal density). The mean number of prime factors of Carmichael numbers grows with scale---we
+measure $\bar k(X)$ rising from $3.00$ to $4.23$ across the range (Table~\ref{tab:Rx})---so the
+monochromatic condition becomes exponentially rarer, and the left wing is squeezed.
+
+This is the whole of the picture, and it is only directional. The naive estimate $R\sim2^{\bar k}$
+rises far more slowly than the data (Fig.~\ref{fig:Rx}, right): $2^{\bar k-1}$ runs from $4$ to $9.4$
+while $R$ runs from $5$ to $89$. The shortfall is structural---the right wing is not merely
+``not-all-left'' but also harvests the entire all-right family and every even-length mixed product---so
+$R$ outruns $2^{\bar k}$. We name the qualitative picture a \emph{topological entropy increase}: a
+low-entropy, fully ordered (single-colour) basin being absorbed into a high-entropy, mixed basin. We
+use the phrase only as a mnemonic for the measured monochromatic suppression; it names a counting
+asymmetry, not a dynamical law, and no entropy functional is claimed.
+
+\section{Honest ledger: the divergence rate is unidentifiable}
+The divergence of $R(X)$ is firm, and its sign and mechanism are explained. Its \emph{rate} is not
+recoverable, and we state this without hedging.
+
+Fitting the seven points to three candidate laws gives nearly indistinguishable residuals in
+$\log R$:
+\[
+R\sim(\log X)^{2.9}\ (\text{resid }0.12),\qquad
+R\sim X^{0.19}\ (\text{resid }0.16),\qquad
+R\sim e^{1.5\sqrt{\log X}}\ (\text{resid }0.13).
+\]
+No reasonable amount of additional data breaks this degeneracy. Two obstructions compound. First, the
+left-wing counts are tiny---$1,1,2,4,6,12,17$ across the decades---so the ratios carry Poisson
+relative errors of order $10\text{--}100\%$; the early points are essentially single observations.
+Second, Carmichael statistics are deeply pre-asymptotic: the Erd\H{o}s count carries
+$\log\log\log/\log\log$ corrections that do not stabilise until astronomically large $X$, and the
+factor-count $\bar k(X)$ that drives the mechanism creeps upward by less than half a unit per several
+decades. Extending the census by one or two further decades would roughly double the left-wing count,
+nowhere near enough to separate a power of $\log X$ from a small power of $X$. Accordingly we report
+$R(X)$ as a \emph{measured divergent trend} with a structural cause, and we make \emph{no} claim of an
+asymptotic divergence law: in any computational window a human can reach, that law is unidentifiable.
+
+\section{Conclusion}
+Read on the $6N$ skeleton, the Carmichael numbers exhibit a rigid one-way membrane (left-wing numbers
+are monochromatically left, Proposition~\ref{prop:membrane}) and a parity selection rule
+(Proposition~\ref{prop:parity}), both verified to $10^{10}$ with zero violations. The geometric
+consequence is an asymmetric collapse of the left-wing population, with the right/left ratio rising
+from $5.0$ to $88.8$ across seven decades, driven by the exponential cost of the monochromatic
+constraint as the typical prime-factor count grows. We claim only this: the two structural laws are
+elementary Korselt consequences, cleanly stated in wing coordinates and confirmed empirically; the
+collapse is a genuine measured phenomenon with a structural mechanism; and its precise asymptotic rate
+is, by Poisson sparsity and pre-asymptotic drift, not identifiable. The framework says nothing about
+the infinitude or the true counting function of Carmichael numbers beyond what \cite{AGP,Erdos,Pinch}
+already give.
+
+\paragraph{Data and code availability.}
+The complete enumeration to $10^{10}$ (the Korselt divisor method, the wing census, the membrane and
+parity verifiers, and the figure) is openly available at
+\url{https://github.com/Ruqing1963/6N-carmichael-collapse}.
+
+\begin{thebibliography}{9}
+\bibitem{Korselt} A. Korselt, \emph{Probl\`eme chinois}, L'interm\'ediaire des math\'ematiciens \textbf{6} (1899), 142--143.
+\bibitem{Carmichael} R. D. Carmichael, \emph{Note on a new number theory function}, Bull. Amer. Math. Soc. \textbf{16} (1910), 232--238.
+\bibitem{AGP} W. R. Alford, A. Granville, C. Pomerance, \emph{There are infinitely many Carmichael numbers}, Ann. of Math. \textbf{139} (1994), 703--722.
+\bibitem{Erdos} P. Erd\H{o}s, \emph{On pseudoprimes and Carmichael numbers}, Publ. Math. Debrecen \textbf{4} (1956), 201--206.
+\bibitem{Pinch} R. G. E. Pinch, \emph{The Carmichael numbers up to $10^{21}$}, Proc. Conf. Algorithmic Number Theory (2007); tables at \url{http://www.s369624816.websitehome.co.uk/rgep/cartable.html}.
+\bibitem{Review} R. Chen, \emph{Arithmetic geodynamics on the $6N$ skeleton: a review of Parts I--XIX}, Zenodo, doi:10.5281/zenodo.20585301 (2026).
+\bibitem{PXXXV} R. Chen, \emph{Fine structure of the wing-transition memory on the $6N$ skeleton (Part XXXV)}, Zenodo, doi:10.5281/zenodo.20603759 (2026).
+\end{thebibliography}
+
+\end{document}
