@@ -135,8 +135,9 @@ def enumerate_carmichael(X, spf, small_primes):
 # structural-law verifiers (Propositions 1 and 2): must return 0 violations
 # ----------------------------------------------------------------------
 def verify_laws(carms):
-    membrane_violations = 0
-    parity_violations = 0
+    membrane_violations = 0   # Prop 1: left wing -> all factors =5 mod6
+    parity_violations = 0     # Prop 2: right wing -> #left factors even
+    barrier_violations = 0    # Prop 3: 3|n (residue 3) -> all non-3 factors =5 mod6
     for n, F in carms:
         res = n % 6
         if res == 5:                                   # left wing
@@ -146,7 +147,10 @@ def verify_laws(carms):
             n_left = sum(1 for p in F if p % 6 == 5)   # parity: #left must be even
             if n_left % 2 != 0:
                 parity_violations += 1
-    return membrane_violations, parity_violations
+        elif res == 3:                                 # ghost (3 | n)
+            if any(p % 6 == 1 for p in F):             # unified barrier: no right-wing factor
+                barrier_violations += 1
+    return membrane_violations, parity_violations, barrier_violations
 
 # ----------------------------------------------------------------------
 def main():
@@ -162,6 +166,7 @@ def main():
     ns = np.array([n for n, _ in carms])
     res = ns % 6
     ks = np.array([len(F) for _, F in carms])
+    nl = np.array([sum(1 for p in F if p % 6 == 5) for _, F in carms])  # #left factors
 
     print(f"Enumerated {len(carms)} Carmichael numbers up to {X:.0e} in {elapsed:.1f}s")
     known = {10**9: 646, 10**10: 1547, 10**11: 3522, 10**12: 8241}
@@ -169,24 +174,30 @@ def main():
         assert len(carms) == known[X], f"count {len(carms)} != known {known[X]}"
         print(f"  count matches known C({X:.0e}) = {known[X]}  [OK]")
 
-    mv, pv = verify_laws(carms)
+    mv, pv, bv = verify_laws(carms)
     print(f"\nStructural-law verification (must be zero):")
-    print(f"  membrane violations (left-wing impurity) : {mv}")
-    print(f"  parity   violations (right-wing odd #left): {pv}")
-    assert mv == 0 and pv == 0, "STRUCTURAL LAW VIOLATED"
-    print("  -> both laws hold with zero violations  [OK]")
+    print(f"  Prop 1 membrane violations (left-wing impurity)     : {mv}")
+    print(f"  Prop 2 parity   violations (right-wing odd #left)    : {pv}")
+    print(f"  Prop 3 barrier  violations (residue-3 with =1 factor): {bv}")
+    assert mv == 0 and pv == 0 and bv == 0, "STRUCTURAL LAW VIOLATED"
+    print("  -> all three laws hold with zero violations  [OK]")
 
-    print(f"\n{'log10X':>6} {'C(X)':>6} {'right':>6} {'left':>5} {'div3':>5} {'R(X)':>8} {'kbar':>6}")
+    print(f"\n{'log10X':>6} {'C(X)':>6} {'right':>6} {'left':>5} {'div3':>5} "
+          f"{'R(X)':>8} {'pureR':>6} {'mixed':>6} {'M(X)':>7} {'kbar':>6}")
     decades = []
     for e in range(4, int(np.log10(X)) + 1):
         Xd = 10**e; m = ns <= Xd
         R = int(((res == 1) & m).sum())
         L = int(((res == 5) & m).sum())
         D3 = int(((res == 3) & m).sum())
+        pureR = int(((res == 1) & (nl == 0) & m).sum())
+        mixed = int(((res == 1) & (nl > 0) & m).sum())
         kbar = ks[m].mean() if m.any() else float('nan')
         rr = R / L if L else float('nan')
-        decades.append((e, int(m.sum()), R, L, D3, rr, kbar))
-        print(f"{e:6d} {int(m.sum()):6d} {R:6d} {L:5d} {D3:5d} {rr:8.2f} {kbar:6.2f}")
+        MM = pureR / mixed if mixed else float('nan')
+        decades.append((e, int(m.sum()), R, L, D3, rr, pureR, mixed, MM, kbar))
+        print(f"{e:6d} {int(m.sum()):6d} {R:6d} {L:5d} {D3:5d} {rr:8.2f} "
+              f"{pureR:6d} {mixed:6d} {MM:7.3f} {kbar:6.2f}")
 
     # ---- write CSV data files -------------------------------------------------
     import csv
@@ -200,9 +211,10 @@ def main():
                         wing.get(n % 6, "?"), sum(1 for p in F if p % 6 == 5)])
     with open("wing_census.csv", "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["log10_X", "C_X", "right", "left", "div3", "R_X_right_over_left", "mean_num_factors"])
-        for e, c_x, R, L, D3, rr, kbar in decades:
-            w.writerow([e, c_x, R, L, D3, f"{rr:.4f}", f"{kbar:.4f}"])
+        w.writerow(["log10_X", "C_X", "right", "left", "div3", "R_X_right_over_left",
+                    "pure_right", "mixed", "M_X_pureright_over_mixed", "mean_num_factors"])
+        for e, c_x, R, L, D3, rr, pureR, mixed, MM, kbar in decades:
+            w.writerow([e, c_x, R, L, D3, f"{rr:.4f}", pureR, mixed, f"{MM:.4f}", f"{kbar:.4f}"])
     print(f"\nWrote {fn_full} (all {len(carms)} numbers) and wing_census.csv")
 
     # figure (optional; skipped if matplotlib unavailable)
@@ -211,7 +223,7 @@ def main():
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         D = np.array(decades, dtype=float)
-        E, Rv, kbar = D[:, 0], D[:, 5], D[:, 6]
+        E, Rv, kbar = D[:, 0], D[:, 5], D[:, 9]
         good = np.isfinite(Rv)
         lnX = E[good] * np.log(10)
         A = np.polyfit(np.log(lnX), np.log(Rv[good]), 1)
